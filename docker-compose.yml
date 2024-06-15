@@ -1,0 +1,27 @@
+services:
+
+  mariadb:
+    container_name: mariadb
+    build: ./mariadb
+    volumes:
+      - ~/inception/database:/var/lib/mysql/:rw
+    networks:
+      - inception
+    init: true
+    restart: on-failure
+    env_file:
+      - ./mariadb/mariadb.env
+
+      
+# volumes:
+#   database:
+#     name: database
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: ~/inception/database
+#       target: /var/lib/mysql/
+
+networks:
+  inception:
+    driver: bridge
