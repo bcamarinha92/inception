@@ -1,18 +1,19 @@
 FROM alpine:3.19
 RUN apk update && \
-    apk add --no-cache mariadb mariadb-server-utils && \
+    apk add --no-cache mariadb mariadb-client openrc && \
     rm -rf /var/cache/apk/* && \
     mkdir /mariadb
 
-COPY ./init.sql /docker-entrypoint-initdb.d/
 COPY ./init.sh /mariadb
 COPY ./init.sql /mariadb
+COPY ./mariadb-server.cnf /etc/my.cnf.d/
+
 RUN chmod +x /mariadb/init.sh
-# RUN mkdir -p /var/lib/mysql
-# RUN chown -R mysql:mysql /var/lib/mysql
-#RUN sh /mariadb/init.sh
-#USER mysql
+RUN /bin/sh /mariadb/init.sh
+#RUN chown -R mysql:mysql /run/mysqld/
+RUN mysql_install_db --user=mysql
+USER mysql
 EXPOSE 3306
 
-CMD ["/mariadb/init.sh"]
-
+#CMD ["/bin/sh", "/mariadb/init.sh"]
+CMD [ "/bin/sh", "/usr/bin/mysqld" ]
