@@ -1,5 +1,4 @@
 services:
-
   mariadb:
     container_name: mariadb
     build: ./mariadb
@@ -7,12 +6,24 @@ services:
       - ~/inception/database:/var/lib/mysql/:rw
     networks:
       - inception
+    ports:
+      - "3306:3306"
     init: true
     restart: on-failure
     env_file:
-      - ./mariadb/mariadb.env
+      - ./mariadb/.env
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    networks:
+      - inception
+    ports:
+      - "443:443"
+    init: true
+    restart: on-failure
+    env_file:
+      - ./nginx/.env
 
-      
 # volumes:
 #   database:
 #     name: database

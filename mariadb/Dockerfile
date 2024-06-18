@@ -4,16 +4,16 @@ RUN apk update && \
     rm -rf /var/cache/apk/* && \
     mkdir /mariadb
 
-COPY ./init.sh /mariadb
-COPY ./init.sql /mariadb
-COPY ./mariadb-server.cnf /etc/my.cnf.d/
+RUN openrc
+RUN touch /run/openrc/softlevel
 
-RUN chmod +x /mariadb/init.sh
-RUN /bin/sh /mariadb/init.sh
-#RUN chown -R mysql:mysql /run/mysqld/
-RUN mysql_install_db --user=mysql
-USER mysql
+COPY ./tools/* /mariadb
+#COPY ./init.sql /mariadb
+
+RUN chmod +x /mariadb/*.sh
+
+COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/
+
 EXPOSE 3306
 
-#CMD ["/bin/sh", "/mariadb/init.sh"]
-CMD [ "/bin/sh", "/usr/bin/mysqld" ]
+ENTRYPOINT ["/bin/sh", "/mariadb/init.sh"]
