@@ -29,3 +29,5 @@ down:
 clean:
 	@echo "Removing directory $(DATABASE_DIR)..."
 	@rm -rf $(DATABASE_DIR)
+	@echo "Removing directory $(WORDPRESS_DIR)..."
+	@rm -rf $(WORDPRESS_DIR)

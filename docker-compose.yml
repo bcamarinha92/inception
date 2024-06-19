@@ -15,6 +15,8 @@ services:
   nginx:
     container_name: nginx
     build: ./nginx
+    volumes:
+      - ~/inception/wordpress:/var/html/www/:rw
     networks:
       - inception
     ports:
@@ -23,6 +25,23 @@ services:
     restart: on-failure
     env_file:
       - ./nginx/.env
+    depends_on:
+      - wordpress
+  wordpress:
+    container_name: wordpress
+    build: ./wordpress
+    volumes:
+      - ~/inception/wordpress:/var/html/www/:rw
+    networks:
+      - inception
+    ports:
+      - "9000:9000"
+    init: true
+    restart: on-failure
+    env_file:
+      - ./wordpress/.env
+    depends_on:
+      - mariadb
 
 # volumes:
 #   database:
