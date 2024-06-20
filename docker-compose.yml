@@ -1,9 +1,10 @@
 services:
   mariadb:
     container_name: mariadb
+    image: mariadb
     build: ./mariadb
     volumes:
-      - ~/inception/database:/var/lib/mysql/:rw
+      - mariadb_data:/var/lib/mysql/
     networks:
       - inception
     ports:
@@ -14,9 +15,10 @@ services:
       - ./mariadb/.env
   nginx:
     container_name: nginx
+    image: nginx
     build: ./nginx
     volumes:
-      - ~/inception/wordpress:/var/html/www/:rw
+      - wordpress_data:/var/html/www/
     networks:
       - inception
     ports:
@@ -29,9 +31,10 @@ services:
       - wordpress
   wordpress:
     container_name: wordpress
+    image: wordpress
     build: ./wordpress
     volumes:
-      - ~/inception/wordpress:/var/html/www/:rw
+      - wordpress_data:/var/html/www/
     networks:
       - inception
     ports:
@@ -43,14 +46,21 @@ services:
     depends_on:
       - mariadb
 
-# volumes:
-#   database:
-#     name: database
-#     driver: local
-#     driver_opts:
-#       type: none
-#       device: ~/inception/database
-#       target: /var/lib/mysql/
+volumes:
+  mariadb_data:
+    name: mariadb_data
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/bde-sous/data/mariadb_data
+      o: bind
+  wordpress_data:
+    name: wordpress_data
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/bde-sous/data/wordpress_data
+      o: bind
 
 networks:
   inception:

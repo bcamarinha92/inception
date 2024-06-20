@@ -1,10 +1,14 @@
 FROM alpine:3.19
 RUN apk update && \
     apk add --no-cache  openrc \
-    php php-fpm php-mysqli php-opcache php-gd php-mbstring \
-    wget unzip && \
+    php php-fpm php-mysqli php-opcache php-gd php-mbstring php-phar \
+    wget unzip jq && \
     rm -rf /var/cache/apk/* && \
-    mkdir -p /wordpress
+    mkdir -p /wordpress && mkdir -p /usr/local/bin/wp
+
+RUN		wget --no-check-certificate https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+		mv wp-cli.phar /usr/local/bin/wp
+
     
 RUN set -x ; \
     addgroup -g 82 -S www-data ; \

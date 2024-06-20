@@ -1,6 +1,6 @@
 NAME			= inception
-DATABASE_DIR	= ~/inception/database
-WORDPRESS_DIR	= ~/inception/wordpress
+DATABASE_DIR	= /home/bde-sous/data/mariadb_data
+WORDPRESS_DIR	= /home/bde-sous/data/wordpress_data
 
 all: create-dir build up
 
