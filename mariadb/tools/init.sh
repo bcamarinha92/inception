@@ -1,12 +1,8 @@
 #!/bin/sh
 
-#if [ -f /mariadb.env ]; then
-#    export $(cat /mariadb.env | xargs)
-#fi
-
-
 if [ ! -f "/var/lib/mysql/ib_buffer_pool" ];
 then
+	chown -R mysql:mysql /var/lib/mysql/
 	/etc/init.d/mariadb setup
 	rc-service mariadb start
 	/mariadb/sqlinit.sh
