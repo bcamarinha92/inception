@@ -6,6 +6,9 @@ if [ ! -f ./wp-config.php ]; then
     rm latest-pt_PT.zip
     cd /var/html/www/wordpress/
     cp /wordpress/wp-config.php ./wp-config.php
-    php /usr/local/bin/wp/wp-cli.phar core install --path=/var/html/www/wordpress --url=https://bde-sous.42.fr --title="BinhasOnte" --admin_user=wordpress_user --admin_password=wordpress_password --admin_email=bde-sous@student.42porto.com
+    sleep 5
+    php /usr/local/bin/wp/wp-cli.phar core install --path=$WP_HOME --url=$WP_SITEURL --title="BinhasOnte" --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL
+    php /usr/local/bin/wp/wp-cli.phar user create $WP_USER $WP_USER_EMAIL --role=$WP_USER_ROLE --user_pass=$WP_USER_PASSWORD
+
 fi
 php-fpm82 -FR
