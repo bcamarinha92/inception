@@ -1,7 +1,15 @@
+DB_PASSWORD=$(cat "$DB_PASSWORD_FILE")
+MYSQL_ROOT_PASSWORD=$(cat "$MYSQL_ROOT_PASSWORD_FILE")
+MYSQL_PASS=$(cat "$MYSQL_PASSWORD_FILE")
+
+
 if mysql -u ${MYSQL_ROOT_USER} -e "SHOW DATABASES LIKE 'wordpress'" | grep -q "wordpress"; then
     echo "Database 'wordpress' already exists, skipping creation."
 else
-    mysql -u ${MYSQL_ROOT_USER} < /mariadb/init.sql
+    echo "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" | mysql -u ${MYSQL_ROOT_USER}
+    echo "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" | mysql -u ${MYSQL_ROOT_USER}
+    echo "GRANT ALL PRIVILEGES ON wordpress.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" | mysql -u ${MYSQL_ROOT_USER}
+    echo "GRANT ALL PRIVILEGES ON wordpress.* TO '${MYSQL_ROOT_USER}'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';" | mysql -u ${MYSQL_ROOT_USER}
 fi
 
 echo "FLUSH PRIVILEGES;" | mysql -u ${MYSQL_ROOT_USER}
@@ -14,12 +22,6 @@ else
     echo "GRANT ALL PRIVILEGES ON *.* TO '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASS}';" | mysql -u ${MYSQL_ROOT_USER}
 fi
 
-if mysql -u ${MYSQL_ROOT_USER} -e "SELECT 1 FROM mysql.user WHERE User = '${MYSQL_USER}' AND Host = '%'" | grep -q "1"; then
-    echo "User '${DB_USER}'@'%' already exists, skipping creation."
-else
-    echo "CREATE USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" | mysql -u ${MYSQL_ROOT_USER}
-    echo "GRANT ALL PRIVILEGES ON wordpress.* TO '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';" | mysql -u ${MYSQL_ROOT_USER}
-fi
 
 echo "FLUSH PRIVILEGES;" | mysql -u ${MYSQL_ROOT_USER}
 

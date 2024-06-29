@@ -14,7 +14,7 @@ lc-messages-dir         = /usr/share/mariadb
 query_cache_size        = 16M
 expire_logs_days        = 10
 log_error               = /var/lib/mysql/error.log
-character-set-server     = utf8mb4
+character-set-server    = utf8mb4
 collation-server        = utf8mb4_general_ci
 # skip-networking
 

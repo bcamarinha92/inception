@@ -1,3 +1,7 @@
+WP_USER_PASSWORD=$(cat "$WP_USER_PASSWORD_FILE") 
+WP_ADMIN_PASSWORD=$(cat "$WP_ADMIN_PASSWORD_FILE")
+echo $WP_ADMIN_PASSWORD
+
 cd /var/html/www/wordpress/
 if [ ! -f ./wp-config.php ]; then
     cd /wordpress

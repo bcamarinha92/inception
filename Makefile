@@ -13,17 +13,17 @@ create-dir:
 # Build the Docker Compose setup
 build:
 	@echo "Building Docker Compose setup..."
-	@docker compose -p $(NAME) build
+	@docker compose -f ./srcs/docker-compose.yml -p $(NAME) build
 
 # Run the Docker Compose setup
 up:
 	@echo "Running Docker Compose setup..."
-	@docker compose up -d
+	@docker compose -f ./srcs/docker-compose.yml up -d
 
 # Stop the Docker Compose setup
 down:
 	@echo "Stopping Docker Compose setup..."
-	@docker compose down
+	@docker compose -f ./srcs/docker-compose.yml down
 
 # Remove the database directory (use with caution)
 clean:

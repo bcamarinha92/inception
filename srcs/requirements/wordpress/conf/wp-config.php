@@ -27,10 +27,11 @@
 // define( 'DB_HOST', getenv('mariadb') );
 // define( 'WP_HOME', getenv('https://login.42.fr') );
 // define( 'WP_SITEURL', getenv('https://login.42.fr') );
-
+//$db_password = shell_exec('cat $DB_PASSWORD_FILE');
 define( 'DB_NAME', getenv('DB_NAME') );
 define( 'DB_USER', getenv('DB_USER') );
-define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
+#define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
+define('DB_PASSWORD', trim(file_get_contents(getenv('DB_PASSWORD_FILE'))));
 define( 'DB_HOST', getenv('DB_HOST') );
 define( 'WP_HOME', getenv('WP_SITEURL') );
 define( 'WP_SITEURL', getenv('WP_SITEURL') );
